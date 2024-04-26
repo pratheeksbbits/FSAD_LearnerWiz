@@ -1,31 +1,23 @@
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
 var bodyParser = require('body-parser');
 const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
-
-
+const userRoutes = require("./api/routes/users");
 const dbConfig = require('./db.config.js');
+const mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs'); 
+const swaggerDocument = YAML.load('./docs/users.yaml');
 
- //Connecting to the database
- mongoose.connect(dbConfig.url).then(() => {
-    console.log("Successfully connected to the database");    
-}).catch(err => {
-    console.log('Could not connect to the database.', err);
-    process.exit();
-});
-
-//mongoose.Promise = global.Promise;
-
+mongoose.connect(dbConfig.url)
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch(err => console.error('Error connecting to MongoDB Atlas:', err));
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 //CORS headers
-
-
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -36,25 +28,24 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
     return res.status(200).json({});
   }
-   next();   
+  next();
 });
 
 // Routes which should handle requests
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/user", userRoutes);
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
-
 app.get("/", (req, res, next) => {
   res.status(200).json({
-  message: "hi"
-});
+    message: "hi"
+  });
 });
 app.use((req, res, next) => {
   const error = new Error("Not found");
   error.status = 404;
   next(error);
 });
-
-
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
@@ -63,7 +54,5 @@ app.use((error, req, res, next) => {
     }
   });
 });
-
-
 
 module.exports = app;
