@@ -51,7 +51,7 @@ paths:
                   accessToken:
                     type: string
                     description: JWT access token for authentication
-  /content/{email}/{languageId}:
+  /language/content/{email}/{languageId}:
     get:
       summary: Get Language Content
       tags:
@@ -80,7 +80,7 @@ paths:
                 $ref: '#/components/schemas/LanguageContentResponse'
         '500':
           description: Internal server error
-  /content/completed/{email}:
+  /language/content/completed/{email}:
     post:
       summary: Mark Word Completed
       tags:
