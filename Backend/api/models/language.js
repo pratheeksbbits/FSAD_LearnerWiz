@@ -4,6 +4,7 @@ const contentSchema = new mongoose.Schema({
     word: String,
     translation: String,
     wordId: Number,
+    meaning: String,
 });
 
 const languageSchema = new mongoose.Schema({

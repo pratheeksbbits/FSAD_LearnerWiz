@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 var bodyParser = require('body-parser');
 const userRoutes = require("./api/routes/users");
-const languageRoutes = require("./api/routes/language")
+const languageRoutes = require("./api/routes/language");
+const dashboardRoutes = require("./api/routes/dashboard");
 const dbConfig = require('./db.config.js');
 const mongoose = require('mongoose');
 const swaggerUi = require('swagger-ui-express');
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 
 // Routes which should handle requests
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/dashboard", dashboardRoutes);
 app.use("/language", languageRoutes);
 app.use("/user", userRoutes);
 app.get("/", (req, res, next) => {

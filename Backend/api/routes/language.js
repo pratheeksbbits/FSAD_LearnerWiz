@@ -11,7 +11,6 @@ router.get('/content/:email/:languageId', async (req, res) => {
     try {
         const languageData = await Language.find({languageId});
         const wordList = (await UserLanguageMapping.find({ email, languageId })).map(x => x.wordId);
-        console.log('lang', languageData[0]);
         let response = {
             code: languageData[0].code,
             languageId: languageData[0].languageId,
@@ -20,6 +19,7 @@ router.get('/content/:email/:languageId', async (req, res) => {
                 wordId: word.wordId,
                 word: word.word,
                 translation: word.translation,
+                meaning: word.meaning,
                 progress: wordList.includes(word.wordId) ? 1 : 0,
             };
         })};
