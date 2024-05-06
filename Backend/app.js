@@ -8,7 +8,6 @@ const dbConfig = require('./db.config.js');
 const mongoose = require('mongoose');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs'); 
-const swaggerDocument = YAML.load('./docs/users.yaml');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
@@ -82,6 +81,7 @@ app.use("/language", languageRoutes);
 
 app.get('/',(req,res)=>{
   res.render('home');
+});
 
 app.use((req, res, next) => {
   const error = new Error("Not found");
