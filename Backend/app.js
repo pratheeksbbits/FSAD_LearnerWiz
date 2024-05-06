@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
 var bodyParser = require('body-parser');
-const productRoutes = require("./api/routes/products");
-const orderRoutes = require("./api/routes/orders");
 const userRoutes = require("./api/routes/users");
+const languageRoutes = require("./api/routes/language");
+const dashboardRoutes = require("./api/routes/dashboard");
 const dbConfig = require('./db.config.js');
 const mongoose = require('mongoose');
 const swaggerUi = require('swagger-ui-express');
@@ -16,6 +16,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./api/models/user');
+const swaggerDocument = YAML.load('./docs/open_api.yaml');
 
 mongoose.connect(dbConfig.url)
   .then(() => console.log('Connected to MongoDB Atlas'))
@@ -73,13 +74,14 @@ app.use((req, res, next) => {
 
 // Routes which should handle requests
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+ 
 app.use("/", userRoutes);
-app.use("/products", productRoutes);
-app.use("/orders", orderRoutes);
+app.use("/dashboard", dashboardRoutes);
+app.use("/language", languageRoutes);
 
 app.get('/',(req,res)=>{
   res.render('home');
-});
 
 app.use((req, res, next) => {
   const error = new Error("Not found");

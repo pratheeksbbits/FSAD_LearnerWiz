@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: User Authentication API
+  description: API for user registration and login
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local server
+router:
+  paths:
+    - "/content/:email/:languageId":
+        get:
+          summary: "Get Language Content"
+          description: "Endpoint to fetch language content for a given user and language ID."
+          operationId: "getLanguageContent"
+          responses:
+            200:
+              description: "Successful response"
+            500:
+              description: "Internal server error"
+        post:
+          summary: "Mark Word Completed"
+          description: "Endpoint to mark a word as completed for a user."
+          operationId: "markWordCompleted"
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    languageId:
+                      type: number
+                      description: "The ID of the language."
+                    wordId:
+                      type: number
+                      description: "The ID of the word."
+                  required:
+                    - languageId
+                    - wordId
+          responses:
+            201:
+              description: "Word Completed successfully"
+            500:
+              description: "Internal server error"
+
+# Language Model Configuration
+Language:
+  type: object
+  properties:
+    code:
+      type: string
+      description: "The code of the language."
+    content:
+      type: array
+      items:
+        type: object
+        properties:
+          word:
+            type: string
+            description: "The word in the language."
+          translation:
+            type: string
+            description: "The translation of the word."
+          wordId:
+            type: number
+            description: "The ID of the word."
+      description: "Array of content in the language."
+    languageId:
+      type: number
+      description: "The ID of the language."
+  required:
+    - code
+    - content
+    - languageId
+
+# User Language Mapping Model Configuration
+UserLanguageMapping:
+  type: object
+  properties:
+    _id:
+      type: string
+      description: "The ID of the user language mapping."
+    languageId:
+      type: number
+      description: "The ID of the language."
+    email:
+      type: string
+      description: "The email of the user."
+    wordId:
+      type: number
+      description: "The ID of the word."
+  required:
+    - _id
+    - languageId
+    - email
+    - wordId

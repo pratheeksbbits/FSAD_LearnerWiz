@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const users = require('../../controllers/users');
 const catchAsync = require('../../utils/catchAsync');
 const passport = require('passport');
+require('dotenv').config();
 
 router.route('/register')
     .get(users.renderRegister)
