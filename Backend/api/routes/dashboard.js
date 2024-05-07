@@ -16,7 +16,8 @@ router.get('/:email', async (req, res) => {
                 progress: (wordList.filter((word)=> word.languageId == value.languageId).length)/value.content.length,
             }
         })
-        res.status(200).json({data: data});
+        // res.status(200).json({data: data});
+        res.render('dashboard', { data: data });
     } catch (error) {
         console.error('Error fetching language content:', error);
         res.status(500).json({ error: 'Internal server error' });
