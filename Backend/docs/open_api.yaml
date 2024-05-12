@@ -59,13 +59,6 @@ paths:
       description: Endpoint to fetch language content for a given user and language ID.
       parameters:
         - in: path
-          name: email
-          required: true
-          schema:
-            type: string
-            format: email
-          description: Email address of the user
-        - in: path
           name: languageId
           required: true
           schema:
@@ -80,7 +73,7 @@ paths:
                 $ref: '#/components/schemas/LanguageContentResponse'
         '500':
           description: Internal server error
-  /language/content/completed/{email}:
+  /language/content/{languageId}/{wordId}:
     post:
       summary: Mark Word Completed
       tags:

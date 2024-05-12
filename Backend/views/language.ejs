@@ -1,0 +1,19 @@
+<% layout('layouts/boilerplate')%>
+
+<body>
+    <h1><%= response.name %></h1>
+
+    <% response.content.forEach((currWord) => { %>
+        <div>
+            <p><%= currWord.word %></p>
+            <p><%= currWord.translate %></p>
+            <p><%= currWord.meaning %></p>
+
+            <% if (currWord.progress == 0) { %>
+                <form action="/language/content/<%= response.languageId %>/<%= currWord.wordId %>" method="post">
+                    <button type="submit">Ok!</button>
+                </form>
+            <% } %>
+        </div>
+    <% }) %>
+</body>

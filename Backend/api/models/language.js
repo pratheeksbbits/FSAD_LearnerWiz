@@ -9,6 +9,7 @@ const contentSchema = new mongoose.Schema({
 
 const languageSchema = new mongoose.Schema({
     code: String,
+    name: String,
     content: [contentSchema],
     languageId: Number
 });

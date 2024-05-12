@@ -13,6 +13,7 @@ router.get('/:email', async (req, res) => {
             return {
                 code: value.code,
                 languageId: value.languageId,
+                name: value.name,
                 progress: (wordList.filter((word)=> word.languageId == value.languageId).length)/value.content.length,
             }
         })

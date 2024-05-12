@@ -7,13 +7,15 @@ const mongoose = require('mongoose');
 // User registration endpoint
 router.get('/content/:languageId', async (req, res) => {
     const languageId = Number(req.params.languageId);
-    const email = req.params.email;
+    const email = req.user.email;
+    
     try {
         const languageData = await Language.find({languageId});
         const wordList = (await UserLanguageMapping.find({ email, languageId })).map(x => x.wordId);
         let response = {
             code: languageData[0].code,
             languageId: languageData[0].languageId,
+            name: languageData[0].name,
             content: languageData[0]?.content.map(word => {
             return {
                 wordId: word.wordId,
@@ -24,30 +26,33 @@ router.get('/content/:languageId', async (req, res) => {
             };
         })};
 
-        res.status(200).json(response);
+        // res.status(200).json(response);
+        res.render('language', { response: response });
     } catch (error) {
         console.error('Error fetching language content:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
 
-router.post('/content/completed/:email', async (req, res) => {
-    const email = req.params.email;
-    console.log(req.body)
+router.post('/content/:languageId/:wordId', async (req, res) => {
+    const languageId = req.params.languageId;
+    const wordId = req.params.wordId;
+    const email = req.user.email;
+
     try {
-        const { languageId, wordId } = req.body;
-        const wordCompleted = new UserLanguageMapping({
+        const completedWord = new UserLanguageMapping({
             _id: new mongoose.Types.ObjectId(),
             email,
             languageId,
             wordId
         });
-        await wordCompleted.save();
 
-        res.status(201).json({ message: 'Word Completed successfully' });
+        await completedWord.save();
+        res.redirect(`/language/content/${languageId}`);
+        // res.status(201).json({ message: 'Word Completed Successfully!' });
     } catch (error) {
-        console.error('Error in completion:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Error in completion: ', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
