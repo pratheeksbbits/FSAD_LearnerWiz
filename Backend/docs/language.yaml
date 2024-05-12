@@ -18,7 +18,8 @@ router:
               description: "Successful response"
             500:
               description: "Internal server error"
-        post:
+    - "/content/:languageId/:wordId"
+      post:
           summary: "Mark Word Completed"
           description: "Endpoint to mark a word as completed for a user."
           operationId: "markWordCompleted"

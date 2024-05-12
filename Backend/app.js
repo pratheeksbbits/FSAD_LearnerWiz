@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 const userRoutes = require("./api/routes/users");
 const languageRoutes = require("./api/routes/language");
 const dashboardRoutes = require("./api/routes/dashboard");
+const leaderboardRoute = require("./api/routes/leaderboard");
 const dbConfig = require('./db.config.js');
 const mongoose = require('mongoose');
 const swaggerUi = require('swagger-ui-express');
@@ -78,6 +79,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", userRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/language", languageRoutes);
+app.use("/leaderboard", leaderboardRoute);
 
 app.get('/',(req,res)=>{
   res.render('home');
