@@ -108,7 +108,7 @@ paths:
           description: Word Completed successfully
         '500':
           description: Internal server error
-  /dashboard/{email}:
+  /dashboard/:
     get:
       summary: Get Dashboard Data
       tags:

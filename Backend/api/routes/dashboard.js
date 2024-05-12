@@ -4,8 +4,8 @@ const Language = require("../models/language");
 const UserLanguageMapping = require("../models/user_language_mapping")
 const mongoose = require('mongoose');
 
-router.get('/:email', async (req, res) => {
-    const email = req.params.email;
+router.get('/', async (req, res) => {
+    const email = req.user.email;
     try {
         const languageData = await Language.find();
         const wordList = await UserLanguageMapping.find({ email });
