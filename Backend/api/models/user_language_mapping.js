@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const userLanguageSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     languageId: Number,
-    email: String,
+    username: String,
     wordId: Number,
 });
 
