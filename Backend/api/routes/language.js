@@ -7,11 +7,11 @@ const mongoose = require('mongoose');
 // User registration endpoint
 router.get('/content/:languageId', async (req, res) => {
     const languageId = Number(req.params.languageId);
-    const email = req.user.email;
-    
+    const username = req.user.username;
+
     try {
         const languageData = await Language.find({languageId});
-        const wordList = (await UserLanguageMapping.find({ email, languageId })).map(x => x.wordId);
+        const wordList = (await UserLanguageMapping.find({ username, languageId })).map(x => x.wordId);
         let response = {
             code: languageData[0].code,
             languageId: languageData[0].languageId,
@@ -37,12 +37,12 @@ router.get('/content/:languageId', async (req, res) => {
 router.post('/content/:languageId/:wordId', async (req, res) => {
     const languageId = req.params.languageId;
     const wordId = req.params.wordId;
-    const email = req.user.email;
+    const username = req.user.username;
 
     try {
         const completedWord = new UserLanguageMapping({
             _id: new mongoose.Types.ObjectId(),
-            email,
+            username,
             languageId,
             wordId
         });

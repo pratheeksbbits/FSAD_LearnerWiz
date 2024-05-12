@@ -88,6 +88,9 @@ UserLanguageMapping:
     email:
       type: string
       description: "The email of the user."
+    username:
+      type: string
+      description: "Ther username of the user"
     wordId:
       type: number
       description: "The ID of the word."
@@ -95,4 +98,5 @@ UserLanguageMapping:
     - _id
     - languageId
     - email
+    - username
     - wordId
