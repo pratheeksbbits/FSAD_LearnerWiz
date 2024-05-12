@@ -51,7 +51,7 @@ paths:
                   accessToken:
                     type: string
                     description: JWT access token for authentication
-  /language/content/{email}/{languageId}:
+  /language/content/{languageId}:
     get:
       summary: Get Language Content
       tags:
