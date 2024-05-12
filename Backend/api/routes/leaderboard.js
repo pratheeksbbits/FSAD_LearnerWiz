@@ -3,8 +3,9 @@ const router = express.Router();
 const UserLanguageMapping = require("../models/user_language_mapping")
 const Language = require('../models/language');
 const mongoose = require('mongoose');
+const { isLoggedIn } = require('../../middleware');
 
-router.get('/', async (req, res) => {
+router.get('/', isLoggedIn, async (req, res) => {
     try {
         const userMappings = await UserLanguageMapping.find({});
         const languages = await Language.find({}, {languageId: 1, name: 1});

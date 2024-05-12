@@ -3,8 +3,9 @@ const router = express.Router();
 const Language = require("../models/language");
 const UserLanguageMapping = require("../models/user_language_mapping")
 const mongoose = require('mongoose');
+const { isLoggedIn } = require('../../middleware');
 
-router.get('/', async (req, res) => {
+router.get('/', isLoggedIn, async (req, res) => {
     const username = req.user.username;
     try {
         const languageData = await Language.find();
