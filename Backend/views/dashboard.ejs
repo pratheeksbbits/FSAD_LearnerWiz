@@ -18,7 +18,7 @@
             <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">Language : <%= language.code %></h5>
+                        <h5 class="card-title"><a href="/language/content/<%= language.languageId %>">Language : <%= language.code %></a></h5>
                         <div class="progress">
                             <div class="progress-bar bg-success" role="progressbar" style="width: <%= language.progress * 10 %>%;"
                                 aria-valuenow="<%= language.progress * 10 %>" aria-valuemin="0" aria-valuemax="100">

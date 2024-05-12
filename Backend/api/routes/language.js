@@ -5,7 +5,7 @@ const UserLanguageMapping = require("../models/user_language_mapping")
 const mongoose = require('mongoose');
 
 // User registration endpoint
-router.get('/content/:email/:languageId', async (req, res) => {
+router.get('/content/:languageId', async (req, res) => {
     const languageId = Number(req.params.languageId);
     const email = req.params.email;
     try {

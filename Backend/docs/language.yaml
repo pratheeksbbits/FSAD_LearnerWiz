@@ -8,7 +8,7 @@ servers:
     description: Local server
 router:
   paths:
-    - "/content/:email/:languageId":
+    - "/content/:languageId":
         get:
           summary: "Get Language Content"
           description: "Endpoint to fetch language content for a given user and language ID."
