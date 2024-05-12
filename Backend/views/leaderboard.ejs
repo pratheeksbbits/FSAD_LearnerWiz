@@ -1,1 +1,106 @@
-<% layout('layouts/boilerplate')%>
+<% layout('layouts/boilerplate') %>
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+  <style>
+
+    .glassmorphic-card {
+      background: rgba(34, 82, 94, 0.2);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid rgba(0, 229, 236, 0.2);
+      overflow: hidden;
+    }
+
+    .glassmorphic-sub-card {
+      background: rgba(150, 255, 150, 0.2);
+      border-radius: 10px;
+      padding: 15px;
+      border: 1px solid rgba(150, 255, 150, 0.2);
+    }
+
+    .glassmorphic-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    body {
+      background-color: #121212;
+      color: #fff; 
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .footer p {
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>LearnerWiz Leaderboard</h1>
+
+    </div>
+    <% response.forEach((currLang) => { %>
+      <div class="card glassmorphic-card mb-4">
+        <div class="card-header bg-success text-light">
+          <h5 class="card-title mb-0"><%= currLang.name %></h5>
+        </div>
+        <div class="card-body">
+          <% 
+            var inputJson = {};
+            if (currLang.ranking !== undefined) {
+              inputJson = currLang.ranking;
+            }
+
+            function sortKeysByValuesDescending(json) {
+              const sortedKeys = Object.keys(json).sort((a, b) => json[b] - json[a]);
+              return sortedKeys;
+            }
+
+            function getKeysSortedByValuesDescending(json) {
+              if (Object.keys(json).length === 0) {
+                return [];
+              }
+              return sortKeysByValuesDescending(json);
+            }
+
+            const sortedKeys = getKeysSortedByValuesDescending(inputJson);
+          %>
+          <% if (sortedKeys.length > 0) { %>
+            <% sortedKeys.forEach((key, index) => { %>
+              <div class="glassmorphic-sub-card mb-3">
+                <div class="glassmorphic-content">
+                  <h6 class="card-subtitle mb-2"><%= index + 1 %>. <%= key %></h6>
+                  <div class="progress">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: <%= inputJson[key] * 10 %>%" aria-valuenow="<%= inputJson[key] * 10 %>" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <p class="card-text mt-2">Progress: <%= inputJson[key] * 10 %> %</p>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p style="color: gainsboro;">Be the first to make your mark on the leaderboard!</p>
+          <% } %>
+        </div>
+      </div>
+    <% }); %>
+    <div class="footer">
+      <h6>Put on your thinking hats. Join LearnerWiz now!</h6>
+    </div>
+  </div>
+</body>

@@ -59,7 +59,8 @@ router.get('/', async (req, res) => {
             response.push(langData);
         });
     
-        res.status(200).json(response);
+        //res.status(200).json(response);
+        res.render('leaderboard', { response: response });
     } catch (error) {
         console.error('Encountered error while fetching Leaderboard details!');
         res.status(500).json({ error: 'Internal server error' });
