@@ -7,29 +7,30 @@ servers:
   - url: http://localhost:3000
     description: Local server
 paths:
-  /user/register:
-    post:
-      summary: Register a new user
+  /:
+    get:
+      summary: Home Page of the application
+      tags:
+        - Home
+      responses:
+        '200':
+          description: Home page
+          content:
+            text/html:
+              schema:
+                type: string
+  /login:
+    get:
+      summary: Render Login Page of the application
       tags:
         - User Management
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegisterUser'
       responses:
-        '201':
-          description: Created
+        '200':
+          description: Login Page
           content:
-            application/json:
+            text/html:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: A message indicating successful registration
-  /user/login:
+                type: string
     post:
       summary: Login an existing user
       tags:
@@ -42,7 +43,7 @@ paths:
               $ref: '#/components/schemas/LoginUser'
       responses:
         '200':
-          description: OK
+          description: Successfully logged in
           content:
             application/json:
               schema:
@@ -50,89 +51,150 @@ paths:
                 properties:
                   accessToken:
                     type: string
-                    description: JWT access token for authentication
-  /language/content/{languageId}:
+                    description: JWT Access Token for authentication
+  /register:
     get:
-      summary: Get Language Content
+      summary: Render Register Page of the application
       tags:
-        - Language Management
-      description: Endpoint to fetch language content for a given user and language ID.
-      parameters:
-        - in: path
-          name: languageId
-          required: true
-          schema:
-            type: integer
-          description: ID of the language
+        - User Management
       responses:
         '200':
-          description: Successful response
+          description: Register Page
           content:
-            application/json:
+            text/html:
               schema:
-                $ref: '#/components/schemas/LanguageContentResponse'
-        '500':
-          description: Internal server error
-  /language/content/{languageId}/{wordId}:
+                type: string
     post:
-      summary: Mark Word Completed
+      summary: Register a new user
       tags:
-        - Language Management
-      description: Endpoint to mark a word as completed for a user.
-      parameters:
-        - in: path
-          name: email
-          required: true
-          schema:
-            type: string
-            format: email
-          description: Email address of the user
+        - User Management
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                languageId:
-                  type: integer
-                  description: The ID of the language.
-                wordId:
-                  type: integer
-                  description: The ID of the word.
-              required:
-                - languageId
-                - wordId
-      responses:
-        '201':
-          description: Word Completed successfully
-        '500':
-          description: Internal server error
-  /dashboard/:
-    get:
-      summary: Get Dashboard Data
-      tags:
-        - Dashboard
-      description: Endpoint to fetch dashboard data for a user based on email.
-      parameters:
-        - in: path
-          name: email
-          required: true
-          schema:
-            type: string
-            format: email
-          description: Email address of the user
+              $ref: '#/components/schemas/RegisterUser'
       responses:
         '200':
-          description: Successful response
+          description: Successfully registered
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LanguageResponse'
-          '500':
-          description: Internal server error
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    description: Messge indicating successful registration
+  /logout:
+    get:
+      summary: Logout user
+      tags:
+        - User Management
+      responses:
+        '200':
+          description: Successfully Logged out
+          content:
+            text/html:
+              schema:
+                type: string
+  /leaderboard:
+    get:
+      summary: Leaderboard
+      tags:
+        - Leaderboard
+      responses:
+        '200':
+          description: Leaderboard
+          content:
+            text/html:
+              schema:
+                type: string
+  /dashboard:
+    get:
+      summary: Dashboard
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Dashboard of the user
+          content:
+            text/html:
+              schema:
+                type: string
+        '500':
+          description: Error while processing data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerFailure'
+  /language/{languageId}:
+    get:
+      summary: Get Language contents
+      tags:
+        - Language Content
+      responses:
+        '200':
+          description: Learning language of the user
+          content:
+            text/html:
+              schema:
+                type: string
+        '500':
+          description: Fetching contents of the language failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerFailure'
+  /language/{languageId}/{wordId}:
+    post:
+      summary: Mark word as complete
+      tags:
+        - Language Content
+      requiredBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WordComplete'
+      responses:
+        '200':
+          description: Successfully completed the word
+          content:
+            text/html:
+              schema:
+                type: string
+        '500':
+          description: Mapping user with word failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerFailure'
 components:
   schemas:
+    ServerFailure:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Internal Server Error
+    WordComplete:
+      type: object
+      required:
+        - username
+        - languageId
+        - wordId
+      properties:
+        username:
+          type: string
+          description: Username of the user
+        languageId:
+          type: string
+          description: ID of the selected Language
+        wordId:
+          type: string
+          description: ID of the completed Word
     RegisterUser:
       type: object
       required:

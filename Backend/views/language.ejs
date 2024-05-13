@@ -11,7 +11,7 @@
             <p><%= currWord.meaning %></p>
 
             <% if (currWord.progress == 0) { %>
-                <form action="/language/content/<%= response.languageId %>/<%= currWord.wordId %>" method="post">
+                <form action="/language/<%= response.languageId %>/<%= currWord.wordId %>" method="post">
                     <button type="submit">Ok!</button>
                 </form>
             <% } %>
