@@ -1,20 +1,100 @@
-<% layout('layouts/boilerplate')%>
+<% layout('layouts/boilerplate') %>
 
 <body>
-    <a href="/dashboard/">Dashboard</a>
-    <h1><%= response.name %></h1>
+    <style>
+        body {
+            background-image: url('https://img.freepik.com/premium-vector/simple-pattern-transparent-background-theme-school-learning-education_576736-64.jpg?w=1380');
+            background-blend-mode:exclusion;
+            font-family: 'Roboto', sans-serif; 
+        }
 
-    <% response.content.forEach((currWord) => { %>
-        <div>
-            <p><%= currWord.word %></p>
-            <p><%= currWord.translate %></p>
-            <p><%= currWord.meaning %></p>
+        h3 {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
 
-            <% if (currWord.progress == 0) { %>
-                <form action="/language/<%= response.languageId %>/<%= currWord.wordId %>" method="post">
-                    <button type="submit">Ok!</button>
-                </form>
-            <% } %>
+        .card {
+            background-color: #fff; 
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            transition: box-shadow 0.3s ease; 
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            color: #333; 
+            font-weight: bold;
+        }
+
+        .card-text {
+            color: #555; 
+        }
+
+        .completed-notification {
+            height: 45px;
+            background-color: rgba(24, 94, 53, 0.984); 
+            color: #fff; 
+            display: flex;
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            right: 0;
+            border-radius: 0 0 10px 10px;
+            opacity: 0; 
+            transition: opacity 0.3s ease; 
+        }
+
+        .card:hover .completed-notification {
+            opacity: 1; 
+        }
+
+        .mark-as-completed-btn {
+            background-color: #007bff; 
+            font-weight: 500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .mark-as-completed-btn:hover {
+            background-color: #0056b3; 
+        }
+    </style>
+<div style="background-color: #0d3b4d; padding: 15px; border-radius: 10px; margin: 20px auto; max-width: 600px;">
+    <h3><%= response.name %> Basics</h3>
+    <center><p style="color: rgb(184, 222, 231); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; ">Learn <%= response.name %> basics with translations and meanings. Mark your progress to make it to the leaderboard! </p></center>
+</div>
+
+
+    <div class="container">
+        <div class="row">
+            <% response.content.forEach((currWord) => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= currWord.word %></h5>
+                            <p class="card-text">Meaning: <%= currWord.meaning %></p>
+                            <p class="card-text">Translation: <%= currWord.translation %></p>
+
+                          
+                            <div style="display: <%= currWord.progress !== 0 ? 'block' : 'none' %>; " class="completed-notification"><center>Completed!</center></div>
+
+                      
+                            <form action="/language/<%= response.languageId %>/<%= currWord.wordId %>" method="post">
+                                <button style="display: <%= currWord.progress !== 1 ? 'block' : 'none' %>; " class="mark-as-completed-btn">Mark as completed</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
         </div>
-    <% }) %>
+    </div>
 </body>
