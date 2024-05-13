@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const { isLoggedIn } = require('../../middleware');
 
 // User registration endpoint
-router.get('/content/:languageId', isLoggedIn, async (req, res) => {
+router.get('/:languageId', isLoggedIn, async (req, res) => {
     const languageId = Number(req.params.languageId);
     const username = req.user.username;
 
@@ -35,7 +35,7 @@ router.get('/content/:languageId', isLoggedIn, async (req, res) => {
     }
 });
 
-router.post('/content/:languageId/:wordId', isLoggedIn, async (req, res) => {
+router.post('/:languageId/:wordId', isLoggedIn, async (req, res) => {
     const languageId = req.params.languageId;
     const wordId = req.params.wordId;
     const username = req.user.username;
