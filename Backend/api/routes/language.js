@@ -49,7 +49,7 @@ router.post('/:languageId/:wordId', isLoggedIn, async (req, res) => {
         });
 
         await completedWord.save();
-        res.redirect(`/language/content/${languageId}`);
+        res.redirect(`/language/${languageId}`);
         // res.status(201).json({ message: 'Word Completed Successfully!' });
     } catch (error) {
         console.error('Error in completion: ', error);
